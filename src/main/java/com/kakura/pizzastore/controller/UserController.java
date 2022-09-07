@@ -5,11 +5,9 @@ import com.kakura.pizzastore.service.UserService;
 import com.kakura.pizzastore.util.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -37,16 +35,41 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public String performRegistration(@ModelAttribute("person") @Valid User user, BindingResult bindingResult) {
+    public String performRegistration(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
 
         userValidator.validate(user, bindingResult);
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "users/registration";
         }
 
         userService.createUser(user);
 
         return "redirect:/users/login";
+    }
+
+    @GetMapping()
+    public String index(Model model) {
+        model.addAttribute("users", userService.findAll());
+        return "users/index";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String edit(Model model, @PathVariable Long id) {
+        model.addAttribute(userService.findOne(id));
+        return "users/edit";
+    }
+
+    @PatchMapping("/{id}")
+    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, @PathVariable("id") Long id) {
+
+        userValidator.validate(user, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "users/edit";
+        }
+
+        userService.update(id, user);
+        return "redirect:/users";
     }
 }

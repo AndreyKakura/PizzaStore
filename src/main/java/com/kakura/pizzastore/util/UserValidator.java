@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import java.util.Objects;
+import java.util.Optional;
+
 @Component
 public class UserValidator implements Validator {
 
@@ -24,9 +27,10 @@ public class UserValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        User person = (User) target;
-        if (userRepository.findByEmail(person.getEmail()).isPresent()) {
-            errors.rejectValue("username", "", "Account with such email already exists");
+        User userToBeChecked = (User) target;
+        Optional<User> userFromDb = userRepository.findByEmail(userToBeChecked.getEmail());
+        if (userFromDb.isPresent() && !Objects.equals(userFromDb.get().getId(), userToBeChecked.getId())) {
+            errors.rejectValue("email", "", "Account with such email already exists");
         }
     }
 }

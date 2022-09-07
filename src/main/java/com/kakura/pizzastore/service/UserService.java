@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,20 +20,36 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public User findOne(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    public boolean createUser(User user) {
-
+    public void createUser(User user) {
         user.setActive(true);
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
         user.setRole("ROLE_USER");
-
         userRepository.save(user);
-
-        return true;
     }
+
+    public void update(Long id, User updatedUser) {
+        User userToBeUpdated = userRepository.findById(id).get();
+
+        updatedUser.setId(id);
+        updatedUser.setActive(userToBeUpdated.isActive());
+        updatedUser.setRole(userToBeUpdated.getRole());
+        updatedUser.setPassword(userToBeUpdated.getPassword());
+        //TODO setCart setOrder
+        userRepository.save(updatedUser);
+
+    }
+
+
 }

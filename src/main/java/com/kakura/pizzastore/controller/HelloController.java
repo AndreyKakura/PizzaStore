@@ -17,7 +17,6 @@ public class HelloController {
     public String showUserInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        System.out.println(userDetails.getUser());
 
         return "hello";
     }

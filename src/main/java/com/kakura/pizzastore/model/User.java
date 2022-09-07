@@ -18,16 +18,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Email should not be empty")
-    @Email(message = "Enter email in \"emailuser@domain\" format")
+    @Email(message = "Enter email in \"name@example.com\" format")
+    @Column(name = "email")
     private String email;
 
-    @NotEmpty(message = "Name should not be empty")
     @Size(min = 1, max = 30, message = "Name should be between 1 and 30 characters")
     @Column(name = "name")
     private String name;
 
-    @NotEmpty(message = "Surname should not be empty")
     @Size(min = 1, max = 30, message = "Surname should be between 1 and 30 characters")
     @Column(name = "surname")
     private String surname;
@@ -36,7 +34,7 @@ public class User {
     private boolean active;
 
     @Column(name = "password", length = 1000)
-    @NotEmpty(message = "Password should not be empty")
+    //@NotEmpty(message = "Password should not be empty")
     private String password;
 
     @Column(name = "role")
