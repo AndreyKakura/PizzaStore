@@ -70,7 +70,7 @@ public class Cart {
         return "Cart{" +
                 "id=" + id +
                 ", user=" + user +
-                ", pizzas=" + pizzas +
+                ", pizza=" + pizzas +
                 '}';
     }
 }

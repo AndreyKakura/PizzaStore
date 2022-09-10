@@ -14,7 +14,7 @@ public class Pizza {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "name")
     @NotEmpty(message = "Name should not be empty")
@@ -23,21 +23,24 @@ public class Pizza {
 
     @Column(name = "description")
     @NotEmpty
-    @Size(max = 500 , message = "Description name should not be greater than 500 characters")
+    @Size(max = 500 , message = "Description should not be greater than 500 characters")
     private String description;
 
     @Column(name = "price")
-    @Positive(message = "Name should be greater than zero")
+    @Positive(message = "Price should be greater than zero")
     private BigDecimal price;
+
+    @OneToOne(mappedBy = "pizza",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Image image;
 
     public Pizza() {
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -63,6 +66,15 @@ public class Pizza {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        image.setPizza(this);
+        this.image = image;
     }
 
     @Override
