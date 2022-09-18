@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Pizza</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 </head>
 <body>
 <header th:insert="main/header :: header"></header>
@@ -18,8 +17,8 @@
                         <h5 class="card-title" th:text="${pizza.getName()}"></h5>
                         <p class="card-text" th:text="${pizza.getDescription()}"></p>
                         <p class="card-text" th:text="${pizza.getPrice()}"></p>
-                        <a class="btn btn-primary text-decoration-none" th:href="@{/pizza/{id}/edit(id = ${pizza.getId()})}">Edit</a>
-                        <a href="#" class="btn btn-primary">Add to cart</a>
+                        <a sec:authorize="hasRole('ADMIN')" class="btn btn-primary m-1" th:href="@{/pizza/{id}/edit(id = ${pizza.getId()})}">Edit</a>
+                        <a href="#" class="btn btn-primary mi1">Add to cart</a>
                     </div>
                 </div>
             </div>
@@ -27,5 +26,6 @@
     </div>
 </main>
 <footer th:insert="main/footer :: footer"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 </body>
 </html>

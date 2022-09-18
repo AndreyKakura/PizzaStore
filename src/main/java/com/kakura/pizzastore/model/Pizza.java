@@ -2,6 +2,7 @@ package com.kakura.pizzastore.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
@@ -27,6 +28,7 @@ public class Pizza {
     private String description;
 
     @Column(name = "price")
+    @NotNull(message = "Price should not be null")
     @Positive(message = "Price should be greater than zero")
     private BigDecimal price;
 

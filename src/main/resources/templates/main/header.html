@@ -1,6 +1,24 @@
-<div th:fragment="header">
+<div th:fragment="header" xmlns:sec="http://www.w3.org/1999/xhtml">
 <div class="container-fluid">
-    <p class="alert">ЫЫЫ Я HEADER</p>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/pizza">Pizza</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                        <a sec:authorize="hasRole('ADMIN')" class="nav-link active" href="/admin" >Admin</a>
+                    <a sec:authorize="hasRole('ADMIN')" class="nav-link active" href="/pizza/new" >Add pizza</a>
+                    <a sec:authorize="!isAuthenticated()" class="nav-link active" href="/users/registration">Registration</a>
+                        <a sec:authorize="!isAuthenticated()" class="nav-link active" href="/users/login">Login</a>
+                        <form sec:authorize="isAuthenticated()" th:action="@{/logout}" th:method="POST">
+                            <input class="nav-link active border-warning" type="submit" value="Logout">
+                        </form>
+                </div>
+            </div>
+        </div>
+    </nav>
     <hr/>
 </div>
 </div>

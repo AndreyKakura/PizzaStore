@@ -8,13 +8,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.config.ldap.EmbeddedLdapServerContextSourceFactoryBean;
-import org.springframework.security.config.ldap.LdapBindAuthenticationManagerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 
 @Configuration
 @EnableWebSecurity
@@ -81,18 +78,21 @@ public class SecurityConfiguration {
 //    }
 
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)  throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(getPasswordEncoder());
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
+
         return http
                 .authorizeRequests()
-                .anyRequest().permitAll()
-//                .antMatchers("/admin").hasRole("ADMIN")
-//                .antMatchers("/users", "/users/login", "/users/registration", "/error").permitAll()
-//                .anyRequest().hasAnyRole("USER", "ADMIN")
+//                .anyRequest().permitAll()
+                .antMatchers("/admin", "/users", "/users/{id}/edit").hasRole("ADMIN")
+                .antMatchers("/pizza/new", "/pizza/{id}", "/pizza/{id}/edit").hasRole("ADMIN")
+                .antMatchers( "/users/login", "/users/registration", "/pizza", "/images/{id}", "/error").permitAll()
+                .anyRequest().hasAnyRole("USER", "ADMIN")
                 .and()
                 .formLogin().loginPage("/users/login")
                 .loginProcessingUrl("/process_login")
@@ -105,9 +105,7 @@ public class SecurityConfiguration {
 //                .and()
                 .authenticationManager(authenticationManager)
                 .build();
-
     }
-
 //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.userDetailsService(userDetailsService)

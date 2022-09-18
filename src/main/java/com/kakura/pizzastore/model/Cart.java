@@ -1,7 +1,6 @@
 package com.kakura.pizzastore.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,11 +18,11 @@ public class Cart {
 
     @ManyToMany
     @JoinTable(
-            name = "cart_pizza",
+            name = "cart_order_item",
             joinColumns = @JoinColumn(name = "cart_id"),
-            inverseJoinColumns = @JoinColumn(name = "pizza_id")
+            inverseJoinColumns = @JoinColumn(name = "order_item_id")
     )
-    private List<Pizza> pizzas;
+    private List<OrderItem> orderItems;
 
     public Cart() {
     }
@@ -44,12 +43,12 @@ public class Cart {
         this.user = user;
     }
 
-    public List<Pizza> getPizzas() {
-        return pizzas;
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setPizzas(List<Pizza> pizzas) {
-        this.pizzas = pizzas;
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 
     @Override
@@ -57,12 +56,12 @@ public class Cart {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cart cart = (Cart) o;
-        return Objects.equals(id, cart.id) && Objects.equals(user, cart.user) && Objects.equals(pizzas, cart.pizzas);
+        return Objects.equals(id, cart.id) && Objects.equals(user, cart.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, pizzas);
+        return Objects.hash(id, user);
     }
 
     @Override
@@ -70,7 +69,6 @@ public class Cart {
         return "Cart{" +
                 "id=" + id +
                 ", user=" + user +
-                ", pizza=" + pizzas +
                 '}';
     }
 }

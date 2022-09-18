@@ -1,18 +1,14 @@
 package com.kakura.pizzastore.model;
 
 import com.kakura.pizzastore.converter.LocalDateTimeAttributeConverter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "orders")
@@ -45,7 +41,7 @@ public class Order {
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
-    private List<OrderDetails> orderDetails;
+    private List<OrderItem> orderItems;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
@@ -101,12 +97,12 @@ public class Order {
         this.address = address;
     }
 
-    public List<OrderDetails> getOrderDetails() {
-        return orderDetails;
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setOrderDetails(List<OrderDetails> orderDetails) {
-        this.orderDetails = orderDetails;
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 
     public OrderStatus getOrderStatus() {
@@ -117,30 +113,5 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return Objects.equals(id, order.id) && Objects.equals(created, order.created) && Objects.equals(updated, order.updated) && Objects.equals(user, order.user) && Objects.equals(sum, order.sum) && Objects.equals(address, order.address) && Objects.equals(orderDetails, order.orderDetails) && orderStatus == order.orderStatus;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, created, updated, user, sum, address, orderDetails, orderStatus);
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", created=" + created +
-                ", updated=" + updated +
-                ", user=" + user +
-                ", sum=" + sum +
-                ", address='" + address + '\'' +
-                ", orderDetails=" + orderDetails +
-                ", orderStatus=" + orderStatus +
-                '}';
-    }
+    //todo equals hashcode tostring
 }

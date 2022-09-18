@@ -1,5 +1,6 @@
 package com.kakura.pizzastore.service;
 
+import com.kakura.pizzastore.model.Cart;
 import com.kakura.pizzastore.model.User;
 import com.kakura.pizzastore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class UserService {
         user.setActive(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("ROLE_USER");
+        user.setCart(new Cart());
         userRepository.save(user);
     }
 
