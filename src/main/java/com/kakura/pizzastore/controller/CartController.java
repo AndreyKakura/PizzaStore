@@ -21,7 +21,8 @@ public class CartController {
     }
 
     @PutMapping("/add")
-    public String addToCart(@RequestParam("id") Long id, @RequestParam("amount") long amount, @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public String addToCart(@RequestParam("id") Long id, @RequestParam("amount") long amount,
+                            @AuthenticationPrincipal CustomUserDetails userDetails) {
         String user = userDetails.getUsername();
         cartService.addItem(id, amount, user);
         return "redirect:/pizza";

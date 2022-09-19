@@ -32,21 +32,36 @@ public class CartService {
         List<CartItem> items = cart.getOrderItems();
 
         boolean cartContainsProduct = false;
+        boolean amountGreaterThanZero = amount > 0;
+
 
         for (CartItem item : items) {
             if (item.getPizza().getId().equals(pizzaId)) {
-                if (amount > 0) {
+                if (amountGreaterThanZero) {
                     item.setAmount(amount);
                     cartItemRepository.save(item);
+                    cartContainsProduct = true;
                 } else {
                     System.out.println(item.getId());
                     cartItemRepository.deleteById(item.getId());
                     System.out.println(cartItemRepository.findById(item.getId()).get());
                 }
-                cartContainsProduct = true;
+                break;
             }
         }
-
+//        for (CartItem item : items) {
+//            if (item.getPizza().getId().equals(pizzaId)) {
+//                if (amount > 0) {
+//                    item.setAmount(amount);
+//                    cartItemRepository.save(item);
+//                } else {
+//                    System.out.println(item.getId());
+//                    cartItemRepository.deleteById(item.getId());
+//                    System.out.println(cartItemRepository.findById(item.getId()).get());
+//                }
+//                cartContainsProduct = true;
+//            }
+//        }
         if (!cartContainsProduct && amount > 0) {
             CartItem item = new CartItem();
             item.setPizza(pizzaRepository.findById(pizzaId).get());
