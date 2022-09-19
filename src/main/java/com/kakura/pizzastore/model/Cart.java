@@ -1,6 +1,7 @@
 package com.kakura.pizzastore.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,13 +17,8 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany
-    @JoinTable(
-            name = "cart_order_item",
-            joinColumns = @JoinColumn(name = "cart_id"),
-            inverseJoinColumns = @JoinColumn(name = "order_item_id")
-    )
-    private List<OrderItem> orderItems;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart", fetch = FetchType.EAGER)
+    private List<CartItem> cartItems = new ArrayList<>();
 
     public Cart() {
     }
@@ -43,12 +39,12 @@ public class Cart {
         this.user = user;
     }
 
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
+    public List<CartItem> getOrderItems() {
+        return cartItems;
     }
 
-    public void setOrderItems(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
+    public void setOrderItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
 
     @Override

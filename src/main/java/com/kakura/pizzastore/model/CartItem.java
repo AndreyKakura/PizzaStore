@@ -7,15 +7,15 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
-@Table(name = "order_item")
-public class OrderItem {
+@Table(name = "cart_item")
+public class CartItem {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
     private Cart cart;
 
@@ -35,7 +35,7 @@ public class OrderItem {
     @Positive(message = "Price should be greater than 0")
     private BigDecimal price;
 
-    public OrderItem() {
+    public CartItem() {
     }
 
     public Long getId() {
@@ -90,8 +90,8 @@ public class OrderItem {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrderItem orderItem = (OrderItem) o;
-        return Objects.equals(id, orderItem.id) && Objects.equals(pizza, orderItem.pizza) && Objects.equals(amount, orderItem.amount) && Objects.equals(price, orderItem.price);
+        CartItem cartItem = (CartItem) o;
+        return Objects.equals(id, cartItem.id) && Objects.equals(pizza, cartItem.pizza) && Objects.equals(amount, cartItem.amount) && Objects.equals(price, cartItem.price);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class OrderItem {
 
     @Override
     public String toString() {
-        return "OrderItem{" +
+        return "CartItem{" +
                 "id=" + id +
                 ", pizza=" + pizza +
                 ", amount=" + amount +

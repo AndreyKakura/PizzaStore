@@ -41,7 +41,7 @@ public class Order {
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
-    private List<OrderItem> orderItems;
+    private List<CartItem> cartItems;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
@@ -97,12 +97,12 @@ public class Order {
         this.address = address;
     }
 
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
+    public List<CartItem> getOrderItems() {
+        return cartItems;
     }
 
-    public void setOrderItems(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
+    public void setOrderItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
 
     public OrderStatus getOrderStatus() {
