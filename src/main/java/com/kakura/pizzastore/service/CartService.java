@@ -40,14 +40,14 @@ public class CartService {
                     cartItemRepository.save(item);
                 } else {
                     System.out.println(item.getId());
-                    System.out.println(cartItemRepository.findById(item.getId()).get());
                     cartItemRepository.deleteById(item.getId());
+                    System.out.println(cartItemRepository.findById(item.getId()).get());
                 }
                 cartContainsProduct = true;
             }
         }
 
-        if (!cartContainsProduct) {
+        if (!cartContainsProduct && amount > 0) {
             CartItem item = new CartItem();
             item.setPizza(pizzaRepository.findById(pizzaId).get());
             item.setAmount(amount);
@@ -55,8 +55,6 @@ public class CartService {
             cart.getOrderItems().add(item);
             cartRepository.save(cart);
         }
-
-
     }
 
     public Map<Long, Long> getMapOfPizzaIdAndAmountForUser(String user) {
