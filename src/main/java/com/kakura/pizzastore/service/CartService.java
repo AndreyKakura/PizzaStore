@@ -28,12 +28,9 @@ public class CartService {
 
     public void addItem(Long pizzaId, long amount, String user) {
         Cart cart = cartRepository.findCartByUserEmail(user).get();
-
         List<CartItem> items = cart.getOrderItems();
-
         boolean cartContainsProduct = false;
         boolean amountGreaterThanZero = amount > 0;
-
 
         for (CartItem item : items) {
             if (item.getPizza().getId().equals(pizzaId)) {
@@ -62,7 +59,7 @@ public class CartService {
 //                cartContainsProduct = true;
 //            }
 //        }
-        if (!cartContainsProduct && amount > 0) {
+        if (!cartContainsProduct && amountGreaterThanZero) {
             CartItem item = new CartItem();
             item.setPizza(pizzaRepository.findById(pizzaId).get());
             item.setAmount(amount);
