@@ -1,5 +1,6 @@
 package com.kakura.pizzastore.controller;
 
+import com.kakura.pizzastore.model.Image;
 import com.kakura.pizzastore.model.Pizza;
 import com.kakura.pizzastore.security.CustomUserDetails;
 import com.kakura.pizzastore.service.CartService;

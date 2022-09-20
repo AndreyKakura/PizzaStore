@@ -10,6 +10,7 @@
                 <div class="navbar-nav">
                         <a sec:authorize="hasRole('ADMIN')" class="nav-link active" href="/admin" >Admin</a>
                     <a sec:authorize="hasRole('ADMIN')" class="nav-link active" href="/pizza/new" >Add pizza</a>
+                    <a sec:authorize="hasAnyRole('ADMIN', 'USER')" class="nav-link active" href="/cart" >Cart</a>
                     <a sec:authorize="!isAuthenticated()" class="nav-link active" href="/users/registration">Registration</a>
                         <a sec:authorize="!isAuthenticated()" class="nav-link active" href="/users/login">Login</a>
                         <form sec:authorize="isAuthenticated()" th:action="@{/logout}" th:method="POST">

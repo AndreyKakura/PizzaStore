@@ -2,8 +2,6 @@ package com.kakura.pizzastore.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Positive;
-import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
@@ -20,20 +18,12 @@ public class CartItem {
     private Cart cart;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
-    private Order order;
-
-    @ManyToOne
     @JoinColumn(name = "pizza_id", referencedColumnName = "id")
-    private  Pizza pizza;
+    private Pizza pizza;
 
     @Column(name = "amount")
     @Min(value = 0, message = "amount should be greater than 0")
     private Long amount;
-
-    @Column(name = "price")
-    @Positive(message = "Price should be greater than 0")
-    private BigDecimal price;
 
     public CartItem() {
     }
@@ -54,14 +44,6 @@ public class CartItem {
         this.cart = cart;
     }
 
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
     public Pizza getPizza() {
         return pizza;
     }
@@ -78,25 +60,21 @@ public class CartItem {
         this.amount = amount;
     }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public Long calculatePrice() {
+        return this.getPizza().getPrice().longValue() * this.getAmount();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CartItem cartItem = (CartItem) o;
-        return Objects.equals(id, cartItem.id) && Objects.equals(pizza, cartItem.pizza) && Objects.equals(amount, cartItem.amount) && Objects.equals(price, cartItem.price);
+        CartItem item = (CartItem) o;
+        return Objects.equals(id, item.id) && Objects.equals(cart, item.cart) && Objects.equals(pizza, item.pizza) && Objects.equals(amount, item.amount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, pizza, amount, price);
+        return Objects.hash(id, cart, pizza, amount);
     }
 
     @Override
@@ -105,7 +83,6 @@ public class CartItem {
                 "id=" + id +
                 ", pizza=" + pizza +
                 ", amount=" + amount +
-                ", price=" + price +
                 '}';
     }
 }

@@ -4,33 +4,47 @@
     <meta charset="UTF-8">
     <title>Pizza</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 </head>
 <body>
 <header th:insert="blocks/header :: header"></header>
 <main>
     <div class="container-fluid">
-            <div th:each="pizza : ${pizzas}">
-                <div class="card" style="width: 18rem;">
-                    <img th:src="${pizza.getImage() != null} ? '/images/' + ${pizza.getImage().getId()} : '...'"  class="card-img-top" alt="Pizza image">
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="${pizza.getName()}"></h5>
-                        <p class="card-text" th:text="${pizza.getDescription()}"></p>
-                        <p class="card-text" th:text="${pizza.getPrice()}"></p>
-                        <a sec:authorize="hasRole('ADMIN')" class="btn btn-primary m-1" th:href="@{/pizza/{id}/edit(id = ${pizza.getId()})}">Edit</a>
-                        <form th:action="@{/cart/add}" th:method="PUT">
-                            <input type="hidden" th:value="${pizza.getId()}" name="id">
-                            <input class="btn btn-primary" type="submit" value="Add to cart">
-                        </form>
-                        <p th:if="${mapOfIdAndAmount?.get(pizza.getId()) != null}" th:text="'Already in cart: ' + ${mapOfIdAndAmount?.get(pizza.getId())}">Already in cart:</p>
+        <div th:each="pizza : ${pizzas}">
+            <div class="card" style="width: 18rem;">
+                <img th:src="${pizza.getImage() != null} ? '/images/' + ${pizza.getImage().getId()} : '...'"
+                     class="card-img-top" alt="Pizza image">
+<!--                <img th:if="${pizza.getImage() != null}"-->
+<!--                     th:src="@{'data:image/jpeg;base64,'+${pizza.getImage().getImageBytesEncoded()}}"-->
+<!--                     class="card-img-top" alt="Pizza image">-->
+                <!--                <img th:if="${pizza.getImage() != null}"-->
+                <!--                     th:src="|data:image/png;base64,${pizza.getImage().getImageBytesEncoded()}|" class="card-img-top"-->
+                <!--                     alt="Pizza image"/>-->
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${pizza.getName()}"></h5>
+                    <p class="card-text" th:text="${pizza.getDescription()}"></p>
+                    <p class="card-text" th:text="${pizza.getPrice()}"></p>
+                    <a sec:authorize="hasRole('ADMIN')" class="btn btn-primary m-1"
+                       th:href="@{/pizza/{id}/edit(id = ${pizza.getId()})}">Edit</a>
 
-                    </div>
+                    <form th:action="@{/cart/add}" th:method="PUT">
+                        <input type="hidden" th:value="${pizza.getId()}" name="id">
+                        <input class="btn btn-primary" type="submit" value="Add to cart">
+                    </form>
+                    <p th:if="${mapOfIdAndAmount?.get(pizza.getId()) != null}"
+                       th:text="'Already in cart: ' + ${mapOfIdAndAmount?.get(pizza.getId())}">Already in cart:</p>
+
                 </div>
+
             </div>
+        </div>
 
     </div>
 </main>
 <footer th:insert="blocks/footer :: footer"></footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
 </body>
 </html>

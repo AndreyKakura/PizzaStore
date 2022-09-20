@@ -13,6 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 public class Order {
+    //todo create class OrderItem, add field List<OrderItem>
 
     @Id
     @Column(name = "id")
@@ -39,9 +40,6 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
-    private List<CartItem> cartItems;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
@@ -95,14 +93,6 @@ public class Order {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public List<CartItem> getOrderItems() {
-        return cartItems;
-    }
-
-    public void setOrderItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
     }
 
     public OrderStatus getOrderStatus() {

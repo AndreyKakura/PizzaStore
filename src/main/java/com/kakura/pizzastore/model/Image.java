@@ -1,10 +1,19 @@
 package com.kakura.pizzastore.model;
 
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.persistence.*;
+import java.io.ByteArrayInputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Table(name = "image")
@@ -85,6 +94,24 @@ public class Image {
 
     public void setPizza(Pizza pizza) {
         this.pizza = pizza;
+    }
+
+    public String getImageBytesEncoded() throws UnsupportedEncodingException {
+        byte[] encodeBase64 = Base64.encodeBase64(this.getBytes());
+        String base64Encoded = new String(encodeBase64, "UTF-8");
+        return base64Encoded;
+    }
+    public ResponseEntity<?> getImageView() {
+        if (this.bytes != null) {
+            return ResponseEntity.ok()
+                    .header("fileName", this.getOriginalFileName())
+                    .contentType(MediaType.valueOf(this.getContentType()))
+                    .contentLength(this.getSize())
+                    .body(new InputStreamResource(new ByteArrayInputStream(this.getBytes())));
+        } else {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @Override
