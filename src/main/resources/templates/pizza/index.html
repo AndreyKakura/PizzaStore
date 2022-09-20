@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 </head>
 <body>
-<header th:insert="main/header :: header"></header>
+<header th:insert="blocks/header :: header"></header>
 <main>
     <div class="container-fluid">
             <div th:each="pizza : ${pizzas}">
@@ -18,19 +18,19 @@
                         <p class="card-text" th:text="${pizza.getDescription()}"></p>
                         <p class="card-text" th:text="${pizza.getPrice()}"></p>
                         <a sec:authorize="hasRole('ADMIN')" class="btn btn-primary m-1" th:href="@{/pizza/{id}/edit(id = ${pizza.getId()})}">Edit</a>
-<!--                        <a href="#" class="btn btn-primary">Add to cart</a>-->
                         <form th:action="@{/cart/add}" th:method="PUT">
                             <input type="hidden" th:value="${pizza.getId()}" name="id">
-                            <input type="number" min="0" max="100" th:value="${(mapOfIdAndAmount != null && mapOfIdAndAmount.get(pizza.getId()) !=null) ? mapOfIdAndAmount.get(pizza.getId()) : 0}" name="amount" class="w-25 m-1">
-                            <input class="btn btn-primary" type="submit" value="To cart">
+                            <input class="btn btn-primary" type="submit" value="Add to cart">
                         </form>
+                        <p th:if="${mapOfIdAndAmount?.get(pizza.getId()) != null}" th:text="'Already in cart: ' + ${mapOfIdAndAmount?.get(pizza.getId())}">Already in cart:</p>
+
                     </div>
                 </div>
             </div>
 
     </div>
 </main>
-<footer th:insert="main/footer :: footer"></footer>
+<footer th:insert="blocks/footer :: footer"></footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 </body>
 </html>

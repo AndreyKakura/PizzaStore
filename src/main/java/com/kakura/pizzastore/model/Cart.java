@@ -17,7 +17,7 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart", fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.MERGE}, mappedBy = "cart", fetch = FetchType.EAGER)
     private List<CartItem> cartItems = new ArrayList<>();
 
     public Cart() {
@@ -39,11 +39,11 @@ public class Cart {
         this.user = user;
     }
 
-    public List<CartItem> getOrderItems() {
+    public List<CartItem> getCartItems() {
         return cartItems;
     }
 
-    public void setOrderItems(List<CartItem> cartItems) {
+    public void setCartItems(List<CartItem> cartItems) {
         this.cartItems = cartItems;
     }
 

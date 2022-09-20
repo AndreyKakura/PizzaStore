@@ -7,7 +7,9 @@ import com.kakura.pizzastore.repository.CartRepository;
 import com.kakura.pizzastore.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,51 +28,65 @@ public class CartService {
         this.cartItemRepository = cartItemRepository;
     }
 
-    public void addItem(Long pizzaId, long amount, String user) {
+    @Transactional
+    public void addToCart(Long pizzaId, String user) {
         Cart cart = cartRepository.findCartByUserEmail(user).get();
-        List<CartItem> items = cart.getOrderItems();
+        List<CartItem> items = cart.getCartItems();
         boolean cartContainsProduct = false;
-        boolean amountGreaterThanZero = amount > 0;
-
-        for (CartItem item : items) {
-            if (item.getPizza().getId().equals(pizzaId)) {
-                if (amountGreaterThanZero) {
-                    item.setAmount(amount);
-                    cartItemRepository.save(item);
-                    cartContainsProduct = true;
-                } else {
-                    System.out.println(item.getId());
-                    cartItemRepository.deleteById(item.getId());
-                    System.out.println(cartItemRepository.findById(item.getId()).get());
-                }
+        for(CartItem item : items) {
+            if(item.getPizza().getId().equals(pizzaId)) {
+                item.setAmount(item.getAmount() + 1);
+                cartItemRepository.save(item);
+                cartContainsProduct = true;
                 break;
             }
         }
-//        for (CartItem item : items) {
-//            if (item.getPizza().getId().equals(pizzaId)) {
-//                if (amount > 0) {
-//                    item.setAmount(amount);
-//                    cartItemRepository.save(item);
-//                } else {
-//                    System.out.println(item.getId());
-//                    cartItemRepository.deleteById(item.getId());
-//                    System.out.println(cartItemRepository.findById(item.getId()).get());
-//                }
-//                cartContainsProduct = true;
-//            }
-//        }
-        if (!cartContainsProduct && amountGreaterThanZero) {
+
+        if (!cartContainsProduct) {
             CartItem item = new CartItem();
             item.setPizza(pizzaRepository.findById(pizzaId).get());
-            item.setAmount(amount);
+            item.setAmount(1L);
             item.setCart(cart);
-            cart.getOrderItems().add(item);
+            cart.getCartItems().add(item);
             cartRepository.save(cart);
         }
+
     }
 
+    public Cart findOneByUserEmail(String user) {
+        return cartRepository.findCartByUserEmail(user).orElse(null);
+    }
+
+//    @Transactional
+//    public void changeItemAmount(Long pizzaId, long amount, String user) {
+//        Cart cart = cartRepository.findCartByUserEmail(user).get();
+//        List<CartItem> items = cart.getCartItems();
+//        boolean cartContainsProduct = false;
+//        boolean amountGreaterThanZero = amount > 0;
+//        for (CartItem item : items) {
+//            if (item.getPizza().getId().equals(pizzaId)) {
+//                if (amountGreaterThanZero) {
+//                    item.setAmount(amount);
+//                    cartItemRepository.save(item);
+//                    cartContainsProduct = true;
+//                } else {
+//                    cartItemRepository.deleteById(item.getId());
+//                }
+//                break;
+//            }
+//        }
+//        if (!cartContainsProduct && amountGreaterThanZero) {
+//            CartItem item = new CartItem();
+//            item.setPizza(pizzaRepository.findById(pizzaId).get());
+//            item.setAmount(amount);
+//            item.setCart(cart);
+//            cart.getCartItems().add(item);
+//            cartRepository.save(cart);
+//        }
+//    }
+
     public Map<Long, Long> getMapOfPizzaIdAndAmountForUser(String user) {
-        List<CartItem> items = cartRepository.findCartByUserEmail(user).get().getOrderItems();
+        List<CartItem> items = cartRepository.findCartByUserEmail(user).get().getCartItems();
         Map<Long, Long> mapOfIdAndAmount = new HashMap<>();
         for (CartItem item : items) {
             mapOfIdAndAmount.put(item.getPizza().getId(), item.getAmount());
