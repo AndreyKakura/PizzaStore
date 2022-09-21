@@ -89,7 +89,7 @@ public class SecurityConfiguration {
         return http
                 .authorizeRequests()
 //                .anyRequest().permitAll()
-                .antMatchers("/admin", "/users", "/users/{id}/edit").hasRole("ADMIN")
+                .antMatchers( "/users", "/users/{id}/edit").hasRole("ADMIN")
                 .antMatchers("/pizza/new", "/pizza/{id}", "/pizza/{id}/edit").hasRole("ADMIN")
                 .antMatchers("/cart/index").hasAnyRole("ADMIN", "USER")
                 .antMatchers( "/users/login", "/users/registration", "/pizza", "/images/{id}", "/error").permitAll()
