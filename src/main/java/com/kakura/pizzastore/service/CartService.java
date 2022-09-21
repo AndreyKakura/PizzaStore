@@ -28,8 +28,8 @@ public class CartService {
     }
 
     @Transactional
-    public void addToCart(Long pizzaId, String user) {
-        Cart cart = cartRepository.findCartByUserEmail(user).get();
+    public void addToCart(Long pizzaId, Long userId) {
+        Cart cart = cartRepository.findCartByUserId(userId).get();
         List<CartItem> items = cart.getCartItems();
         boolean cartContainsProduct = false;
         for (CartItem item : items) {
@@ -52,12 +52,12 @@ public class CartService {
 
     }
 
-    public Cart findOneByUserEmail(String user) {
-        return cartRepository.findCartByUserEmail(user).orElse(null);
+    public Cart findOneByUserId(Long userId) {
+        return cartRepository.findCartByUserId(userId).orElse(null);
     }
 
-    public Map<Long, Long> getMapOfPizzaIdAndAmountForUser(String user) {
-        List<CartItem> items = cartRepository.findCartByUserEmail(user).get().getCartItems();
+    public Map<Long, Long> getMapOfPizzaIdAndAmountForUser(Long userId) {
+        List<CartItem> items = cartRepository.findCartByUserId(userId).get().getCartItems();
         Map<Long, Long> mapOfIdAndAmount = new HashMap<>();
         for (CartItem item : items) {
             mapOfIdAndAmount.put(item.getPizza().getId(), item.getAmount());
@@ -67,6 +67,10 @@ public class CartService {
 
     public Long calculateTotalPrice(Cart cart) {
         List<CartItem> items = cart.getCartItems();
-        return items.stream().count();
+        long totalPrice = 0;
+        for(CartItem item : cart.getCartItems()) {
+            totalPrice += item.calculatePrice();
+        }
+        return totalPrice;
     }
 }

@@ -97,7 +97,7 @@ public class SecurityConfiguration {
                 .and()
                 .formLogin().loginPage("/users/login")
                 .loginProcessingUrl("/process_login")
-                .defaultSuccessUrl("/hello", true)
+                .defaultSuccessUrl("/pizza", true)
                 .failureUrl("/users/login?error")
                 .and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/users/login")

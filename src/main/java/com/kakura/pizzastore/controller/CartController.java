@@ -25,8 +25,8 @@ public class CartController {
 
     @GetMapping()
     public String index(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
-        Cart cart = cartService.findOneByUserEmail(userDetails.getUsername());
-        model.addAttribute("items", cart.getCartItems());
+        Cart cart = cartService.findOneByUserId(userDetails.getUser().getId());
+        model.addAttribute("cart", cart);
         model.addAttribute("totalPrice", cartService.calculateTotalPrice(cart));
         return "cart/index";
     }
@@ -34,8 +34,8 @@ public class CartController {
     @PutMapping("/add")
     public String addToCart(@RequestParam("id") Long id,
                             @AuthenticationPrincipal CustomUserDetails userDetails) {
-        String user = userDetails.getUsername();
-        cartService.addToCart(id, user);
+        Long userId = userDetails.getUser().getId();
+        cartService.addToCart(id, userId);
         return "redirect:/pizza";
     }
 

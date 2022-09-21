@@ -31,7 +31,7 @@ public class PizzaController {
     @GetMapping()
     public String index(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
         if( userDetails != null) {
-            model.addAttribute("mapOfIdAndAmount", cartService.getMapOfPizzaIdAndAmountForUser(userDetails.getUsername()));
+            model.addAttribute("mapOfIdAndAmount", cartService.getMapOfPizzaIdAndAmountForUser(userDetails.getUser().getId()));
         }
         model.addAttribute("pizzas", pizzaService.findAll());
         return "pizza/index";

@@ -5,17 +5,17 @@ import javax.validation.constraints.Min;
 import java.util.Objects;
 
 @Entity
-@Table(name = "cart_item")
-public class CartItem {
+@Table(name = "order_item")
+public class OrderItem {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne()
-    @JoinColumn(name = "cart_id", referencedColumnName = "id")
-    private Cart cart;
+    @ManyToOne
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    private Order order;
 
     @ManyToOne
     @JoinColumn(name = "pizza_id", referencedColumnName = "id")
@@ -25,7 +25,7 @@ public class CartItem {
     @Min(value = 0, message = "Amount should be greater than 0")
     private Long amount;
 
-    public CartItem() {
+    public OrderItem() {
     }
 
     public Long getId() {
@@ -36,12 +36,12 @@ public class CartItem {
         this.id = id;
     }
 
-    public Cart getCart() {
-        return cart;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public Pizza getPizza() {
@@ -60,26 +60,22 @@ public class CartItem {
         this.amount = amount;
     }
 
-    public Long calculatePrice() {
-        return this.getPizza().getPrice().longValue() * this.getAmount();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CartItem item = (CartItem) o;
-        return Objects.equals(id, item.id) && Objects.equals(cart, item.cart) && Objects.equals(pizza, item.pizza) && Objects.equals(amount, item.amount);
+        OrderItem item = (OrderItem) o;
+        return Objects.equals(id, item.id) && Objects.equals(pizza, item.pizza) && Objects.equals(amount, item.amount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, cart, pizza, amount);
+        return Objects.hash(id, pizza, amount);
     }
 
     @Override
     public String toString() {
-        return "CartItem{" +
+        return "OrderItem{" +
                 "id=" + id +
                 ", pizza=" + pizza +
                 ", amount=" + amount +
