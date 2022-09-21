@@ -32,8 +32,8 @@ public class CartService {
         Cart cart = cartRepository.findCartByUserEmail(user).get();
         List<CartItem> items = cart.getCartItems();
         boolean cartContainsProduct = false;
-        for(CartItem item : items) {
-            if(item.getPizza().getId().equals(pizzaId)) {
+        for (CartItem item : items) {
+            if (item.getPizza().getId().equals(pizzaId)) {
                 item.setAmount(item.getAmount() + 1);
                 cartItemRepository.save(item);
                 cartContainsProduct = true;
@@ -56,34 +56,6 @@ public class CartService {
         return cartRepository.findCartByUserEmail(user).orElse(null);
     }
 
-//    @Transactional
-//    public void changeItemAmount(Long pizzaId, long amount, String user) {
-//        Cart cart = cartRepository.findCartByUserEmail(user).get();
-//        List<CartItem> items = cart.getCartItems();
-//        boolean cartContainsProduct = false;
-//        boolean amountGreaterThanZero = amount > 0;
-//        for (CartItem item : items) {
-//            if (item.getPizza().getId().equals(pizzaId)) {
-//                if (amountGreaterThanZero) {
-//                    item.setAmount(amount);
-//                    cartItemRepository.save(item);
-//                    cartContainsProduct = true;
-//                } else {
-//                    cartItemRepository.deleteById(item.getId());
-//                }
-//                break;
-//            }
-//        }
-//        if (!cartContainsProduct && amountGreaterThanZero) {
-//            CartItem item = new CartItem();
-//            item.setPizza(pizzaRepository.findById(pizzaId).get());
-//            item.setAmount(amount);
-//            item.setCart(cart);
-//            cart.getCartItems().add(item);
-//            cartRepository.save(cart);
-//        }
-//    }
-
     public Map<Long, Long> getMapOfPizzaIdAndAmountForUser(String user) {
         List<CartItem> items = cartRepository.findCartByUserEmail(user).get().getCartItems();
         Map<Long, Long> mapOfIdAndAmount = new HashMap<>();
@@ -91,5 +63,10 @@ public class CartService {
             mapOfIdAndAmount.put(item.getPizza().getId(), item.getAmount());
         }
         return mapOfIdAndAmount;
+    }
+
+    public Long calculateTotalPrice(Cart cart) {
+        List<CartItem> items = cart.getCartItems();
+        return items.stream().count();
     }
 }

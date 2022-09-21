@@ -1,7 +1,9 @@
 package com.kakura.pizzastore.service;
 
+import com.kakura.pizzastore.model.CartItem;
 import com.kakura.pizzastore.repository.CartItemRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CartItemService {
@@ -11,7 +13,15 @@ public class CartItemService {
         this.cartItemRepository = cartItemRepository;
     }
 
+    @Transactional
     public void deleteById(Long id) {
         cartItemRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void changeItemAmount(Long itemId, Long amount) {
+            CartItem itemToBeUpdated = cartItemRepository.findById(itemId).get();
+            itemToBeUpdated.setAmount(amount);
+            cartItemRepository.save(itemToBeUpdated);
     }
 }

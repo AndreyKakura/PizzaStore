@@ -27,7 +27,7 @@ public class CartController {
     public String index(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
         Cart cart = cartService.findOneByUserEmail(userDetails.getUsername());
         model.addAttribute("items", cart.getCartItems());
-//        model.addAttribute("totalPrice",  );
+        model.addAttribute("totalPrice", cartService.calculateTotalPrice(cart));
         return "cart/index";
     }
 
@@ -45,6 +45,10 @@ public class CartController {
         return "redirect:/cart";
     }
 
-
+    @PatchMapping("/changeitemamount")
+    public String changeItemAmount( @RequestParam("id") Long itemId, @RequestParam("amount") Long amount) {
+        cartItemService.changeItemAmount(itemId, amount);
+        return "redirect:/cart";
+    }
 
 }
