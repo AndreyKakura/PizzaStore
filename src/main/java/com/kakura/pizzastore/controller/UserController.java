@@ -1,9 +1,11 @@
 package com.kakura.pizzastore.controller;
 
 import com.kakura.pizzastore.model.User;
+import com.kakura.pizzastore.security.CustomUserDetails;
 import com.kakura.pizzastore.service.UserService;
 import com.kakura.pizzastore.util.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -63,6 +65,8 @@ public class UserController {
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, @PathVariable("id") Long id) {
 
+        System.out.println(user.getId());
+
         userValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -72,4 +76,37 @@ public class UserController {
         userService.update(id, user);
         return "redirect:/users";
     }
+    @GetMapping("/editCurrent")
+    public String editCurrent(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        model.addAttribute("user", userService.findOne(userDetails.getUser().getId()));
+        System.out.println(userService.findOne(userDetails.getUser().getId()));
+        return "users/editcurrent";
+    }
+
+    @PatchMapping("/editCurrent")
+    public String editCurrent(@AuthenticationPrincipal CustomUserDetails userDetails,
+                              @ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
+
+        Long currentUserId = userDetails.getUser().getId();
+
+        user.setId(currentUserId);
+
+        userValidator.validate(user, bindingResult);
+
+        if(bindingResult.hasErrors()) {
+            return "users/editcurrent";
+        }
+
+        userService.update(userDetails.getUser().getId(), user);
+
+        return "redirect:/users/profile";
+    }
+
+    @GetMapping("/profile")
+    public String profile(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
+        model.addAttribute("user", userService.findOne(userDetails.getUser().getId()));
+        return "users/profile";
+    }
+
+
 }

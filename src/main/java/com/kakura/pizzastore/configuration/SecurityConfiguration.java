@@ -92,6 +92,8 @@ public class SecurityConfiguration {
                 .antMatchers( "/users", "/users/{id}/edit").hasRole("ADMIN")
                 .antMatchers("/pizza/new", "/pizza/{id}", "/pizza/{id}/edit").hasRole("ADMIN")
                 .antMatchers("/cart/index").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/users/profile").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/users/editCurrent").hasAnyRole("ADMIN", "USER")
                 .antMatchers( "/users/login", "/users/registration", "/pizza", "/images/{id}", "/error").permitAll()
                 .anyRequest().hasAnyRole("USER", "ADMIN")
                 .and()
