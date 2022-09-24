@@ -1,6 +1,7 @@
 package com.kakura.pizzastore.service;
 
 import com.kakura.pizzastore.model.Cart;
+import com.kakura.pizzastore.model.Role;
 import com.kakura.pizzastore.model.User;
 import com.kakura.pizzastore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,22 +37,24 @@ public class UserService {
     public void createUser(User user) {
         user.setActive(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("ROLE_USER");
+        user.setRole(Role.ROLE_USER);
         user.setCart(new Cart());
         userRepository.save(user);
     }
 
     public void update(Long id, User updatedUser) {
         User userToBeUpdated = userRepository.findById(id).get();
-
         updatedUser.setId(id);
         updatedUser.setActive(userToBeUpdated.isActive());
         updatedUser.setRole(userToBeUpdated.getRole());
         updatedUser.setPassword(userToBeUpdated.getPassword());
-        //TODO setCart setOrder
         userRepository.save(updatedUser);
-
     }
 
+    public void changeRole(Long id, Role role) {
+        User user = userRepository.findById(id).get();
+        user.setRole(role);
+        userRepository.save(user);
+    }
 
 }

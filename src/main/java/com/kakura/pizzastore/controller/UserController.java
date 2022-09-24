@@ -1,5 +1,6 @@
 package com.kakura.pizzastore.controller;
 
+import com.kakura.pizzastore.model.Role;
 import com.kakura.pizzastore.model.User;
 import com.kakura.pizzastore.security.CustomUserDetails;
 import com.kakura.pizzastore.service.UserService;
@@ -12,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/users")
@@ -59,27 +61,29 @@ public class UserController {
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable Long id) {
         model.addAttribute(userService.findOne(id));
+        model.addAttribute("roles", List.of(Role.values()));
         return "users/edit";
     }
 
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, @PathVariable("id") Long id) {
-
-        System.out.println(user.getId());
-
         userValidator.validate(user, bindingResult);
-
         if (bindingResult.hasErrors()) {
             return "users/edit";
         }
-
         userService.update(id, user);
         return "redirect:/users";
     }
+
+    @PatchMapping("/{id}/changeRole")
+    public String changeRole(@PathVariable("id") Long id, @RequestParam("role") Role role) {
+        userService.changeRole(id, role);
+        return "redirect:/users/{id}/edit";
+    }
+
     @GetMapping("/editCurrent")
     public String editCurrent(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
         model.addAttribute("user", userService.findOne(userDetails.getUser().getId()));
-        System.out.println(userService.findOne(userDetails.getUser().getId()));
         return "users/editcurrent";
     }
 

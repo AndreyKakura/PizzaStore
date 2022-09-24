@@ -22,7 +22,7 @@ public class UserValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return false;
+        return User.class.equals(clazz);
     }
 
     @Override

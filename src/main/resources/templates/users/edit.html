@@ -30,6 +30,23 @@
             <div class="alert alert-warning" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">error</div>
             <input type="submit" class="btn btn-primary" value="Edit"/>
         </form>
+        <hr/>
+        <p  th:text="'Role: ' +${user.getRole()}"></p>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Change role
+            </button>
+            <ul class="dropdown-menu">
+                <div th:each="role : ${roles}">
+                    <li>
+                        <form th:method="PATCH" th:action="@{/users/{id}/changeRole(id = ${user.getId()})}">
+                            <input type="hidden" th:value="${role}" name="role">
+                            <input type="submit" class="dropdown-item" th:value="${role}"/>
+                        </form>
+                    </li>
+                </div>
+            </ul>
+        </div>
 
     </div>
 </main>
