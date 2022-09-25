@@ -32,7 +32,7 @@
             <input type="submit" class="btn btn-primary" value="Edit"/>
         </form>
         <hr/>
-        <h5 th:text="'Role: ' + ${user.getRole()}"></h5>
+        <h5 th:text="'Role: ' + ${user.getRole().getRoleValue()}"></h5>
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
