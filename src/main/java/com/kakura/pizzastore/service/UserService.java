@@ -57,4 +57,10 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void changeActive(Long id) {
+        User user = userRepository.findById(id).get();
+        user.setActive(!user.isActive());
+        userRepository.save(user);
+    }
+
 }

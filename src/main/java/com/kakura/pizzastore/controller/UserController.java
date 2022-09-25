@@ -112,5 +112,11 @@ public class UserController {
         return "users/profile";
     }
 
+    @PatchMapping("/{id}/changeActive")
+    public String changeActive(@PathVariable("id") Long id) {
+        userService.changeActive(id);
+        return "redirect:/users/{id}/edit";
+    }
+
 
 }

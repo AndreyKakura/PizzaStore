@@ -18,6 +18,7 @@
                         <li  th:text="'Name: ' +${user.getName()}"></li>
                         <li  th:text="'Surname: ' +${user.getSurname()}"></li>
                         <li  th:text="'Role: ' +${user.getRole()}"></li>
+                        <li  th:text="'Active: ' +${user.isActive()}"></li>
                     </ul>
                     <a class="btn btn-primary text-decoration-none" th:href="@{/users/{id}/edit(id = ${user.getId()})}">Edit</a>
                 </li>

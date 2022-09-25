@@ -22,9 +22,7 @@
                 <label for="password">Password</label>
             </div>
             <input type="submit" class="btn btn-primary" value="Login"/>
-            <div th:if="${param.error}" class="alert alert-danger m-1">
-                Incorrect login or password
-            </div>
+                <p th:if="${param.error}" class="alert alert-danger m-1">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
         </form>
     </div>
 </main>
