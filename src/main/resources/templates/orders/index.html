@@ -16,6 +16,10 @@
                 <h5 class="card-header" th:text="'Price: ' + ${order.getPrice()}"></h5>
                 <h6 class="card-header" th:text="'Status: ' + ${order.getOrderStatus()}"></h6>
                 <h6 class="card-header" th:text="'Address: ' + ${order.getAddress()}"></h6>
+                <h6 class="card-header"
+                    th:text="'Time: ' + ${order.getCreated().year} + '-' + ${order.getCreated().month} + '-'
+                    + ${order.getCreated().dayOfMonth} + ' ' + ${order.getCreated().hour} + ':'
+                     + ${order.getCreated().minute} + ':' + ${order.getCreated().second}"></h6>
                 <div class="card-body">
                     <div th:each="item : ${order.getOrderItems()}">
                         <p th:text="${item.getPizza().getName()}" class="card-text"></p>

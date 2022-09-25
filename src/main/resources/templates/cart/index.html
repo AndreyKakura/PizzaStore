@@ -20,13 +20,13 @@
                      class="card-img-top" alt="Pizza image" style="width: 12rem;">
                 <p class="card-text" th:text="${item.getPizza().getDescription()}"></p>
                 <hr/>
-                <form th:action="@{/cart/changeitemamount}" th:method="PATCH">
+                <form th:action="@{/cart/changeItemAmount}" th:method="PATCH">
                     <input type="hidden" th:value="${item.getId()}" name="id">
                     <input type="number" min="1" max="100" th:value="${item.getAmount()}" name="amount"
                            class="w-25 m-1">
                     <input class="btn btn-primary" type="submit" value="Change amount">
                 </form>
-                <form th:action="@{/cart/removeitem/{id} (id = ${item.getId()})}" th:method="DELETE">
+                <form th:action="@{/cart/removeItem/{id} (id = ${item.getId()})}" th:method="DELETE">
                     <input type="submit" value="Delete" class="btn btn-primary">
                 </form>
             </div>

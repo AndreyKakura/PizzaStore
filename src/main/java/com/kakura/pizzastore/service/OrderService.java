@@ -6,6 +6,7 @@ import com.kakura.pizzastore.repository.OrderItemRepository;
 import com.kakura.pizzastore.repository.OrderRepository;
 import com.kakura.pizzastore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,8 +53,8 @@ public class OrderService {
         cartRepository.deleteById(cart.getId());
     }
 
-    public List<Order> findAllByUserId(Long userId) {
-        return orderRepository.findAllByUserId(userId);
+    public List<Order> findAllByUserIdSortedByCreatedDesc(Long userId) {
+        return orderRepository.findAllByUserId(userId, Sort.by(Sort.Direction.DESC, "created"));
     }
 
     private List<OrderItem> convertCartItemsToOrderItems(List<CartItem> cartItems, Order order) {

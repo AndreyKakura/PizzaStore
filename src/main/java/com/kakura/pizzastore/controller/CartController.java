@@ -39,13 +39,13 @@ public class CartController {
         return "redirect:/pizza";
     }
 
-    @DeleteMapping("/removeitem/{id}")
+    @DeleteMapping("/removeItem/{id}")
     public String deleteItem(@PathVariable("id") Long id) {
         cartItemService.deleteById(id);
         return "redirect:/cart";
     }
 
-    @PatchMapping("/changeitemamount")
+    @PatchMapping("/changeItemAmount")
     public String changeItemAmount( @RequestParam("id") Long itemId, @RequestParam("amount") Long amount) {
         cartItemService.changeItemAmount(itemId, amount);
         return "redirect:/cart";

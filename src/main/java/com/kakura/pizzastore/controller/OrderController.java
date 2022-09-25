@@ -34,7 +34,7 @@ public class OrderController {
 
     @GetMapping()
     public String index(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
-        List<Order> orders = orderService.findAllByUserId(userDetails.getUser().getId());
+        List<Order> orders = orderService.findAllByUserIdSortedByCreatedDesc(userDetails.getUser().getId());
         model.addAttribute("orders", orders);
         return "orders/index";
     }
