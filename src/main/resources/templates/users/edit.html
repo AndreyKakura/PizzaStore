@@ -41,7 +41,7 @@
                     <li>
                         <form th:method="PATCH" th:action="@{/users/{id}/changeRole(id = ${user.getId()})}">
                             <input type="hidden" th:value="${role}" name="role">
-                            <input type="submit" class="dropdown-item" th:value="${role}"/>
+                            <input type="submit" class="dropdown-item" th:value="${role.getRoleValue()}"/>
                         </form>
                     </li>
                 </div>
