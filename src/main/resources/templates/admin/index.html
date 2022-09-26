@@ -20,7 +20,7 @@
                         <li  th:text="'Role: ' +${user.getRole().getRoleValue()}"></li>
                         <li  th:text="'Active: ' +${user.isActive()}"></li>
                     </ul>
-                    <a class="btn btn-primary text-decoration-none" th:href="@{/users/{id}/edit(id = ${user.getId()})}">Edit</a>
+                    <a class="btn btn-primary text-decoration-none" th:href="@{/admin/{id}/edit(id = ${user.getId()})}">Edit</a>
                 </li>
             </div>
         </ul>

@@ -12,7 +12,7 @@
 <main>
     <div class="container-fluid">
         <p>Edit user info</p>
-        <form th:method="PATCH" th:action="@{/users/{id}(id = ${user.getId()})}" th:object="${user}"
+        <form th:method="PATCH" th:action="@{/admin/{id}(id = ${user.getId()})}" th:object="${user}"
               class="form-floating mx-5">
             <div class="form-floating m-1">
                 <input type="text" th:field="*{email}" class="form-control" id="email" placeholder="Email"/>
@@ -41,7 +41,7 @@
             <ul class="dropdown-menu">
                 <div th:each="role : ${roles}">
                     <li>
-                        <form th:method="PATCH" th:action="@{/users/{id}/changeRole(id = ${user.getId()})}">
+                        <form th:method="PATCH" th:action="@{/admin/{id}/changeRole(id = ${user.getId()})}">
                             <input type="hidden" th:value="${role}" name="role">
                             <input type="submit" class="dropdown-item" th:value="${role.getRoleValue()}"/>
                         </form>
@@ -51,7 +51,7 @@
         </div>
         <hr/>
         <h5 th:text="${user.isActive() ? 'Active' : 'Blocked'}"></h5>
-        <form th:method="PATCH" th:action="@{/users/{id}/changeActive(id = ${user.getId()})}" class="btn btn-dark">
+        <form th:method="PATCH" th:action="@{/admin/{id}/changeActive(id = ${user.getId()})}" class="btn btn-dark">
             <input type="submit" class="dropdown-item" th:value="${user.isActive() ? 'Block' : 'Unblock'}"/>
         </form>
 

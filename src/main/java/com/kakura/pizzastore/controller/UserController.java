@@ -52,35 +52,6 @@ public class UserController {
         return "redirect:/users/login";
     }
 
-    @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("users", userService.findAll());
-        return "users/index";
-    }
-
-    @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable Long id) {
-        model.addAttribute(userService.findOne(id));
-        model.addAttribute("roles", List.of(Role.values()));
-        return "users/edit";
-    }
-
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, @PathVariable("id") Long id) {
-        userValidator.validate(user, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return "users/edit";
-        }
-        userService.update(id, user);
-        return "redirect:/users";
-    }
-
-    @PatchMapping("/{id}/changeRole")
-    public String changeRole(@PathVariable("id") Long id, @RequestParam("role") Role role) {
-        userService.changeRole(id, role);
-        return "redirect:/users/{id}/edit";
-    }
-
     @GetMapping("/editCurrent")
     public String editCurrent(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
         model.addAttribute("user", userService.findOne(userDetails.getUser().getId()));
@@ -111,12 +82,4 @@ public class UserController {
         model.addAttribute("user", userService.findOne(userDetails.getUser().getId()));
         return "users/profile";
     }
-
-    @PatchMapping("/{id}/changeActive")
-    public String changeActive(@PathVariable("id") Long id) {
-        userService.changeActive(id);
-        return "redirect:/users/{id}/edit";
-    }
-
-
 }
