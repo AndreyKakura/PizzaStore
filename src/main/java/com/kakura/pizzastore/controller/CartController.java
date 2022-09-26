@@ -46,9 +46,8 @@ public class CartController {
     }
 
     @PatchMapping("/changeItemAmount")
-    public String changeItemAmount( @RequestParam("id") Long itemId, @RequestParam("amount") Long amount) {
+    public String changeItemAmount(@RequestParam("id") Long itemId, @RequestParam("amount") Long amount) {
         cartItemService.changeItemAmount(itemId, amount);
         return "redirect:/cart";
     }
-
 }

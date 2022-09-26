@@ -38,6 +38,5 @@ public class ImageController {
         } else {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-
     }
 }

@@ -15,7 +15,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "orders")
 public class Order {
-    //todo create class OrderItem, add field List<OrderItem>
 
     @Id
     @Column(name = "id")

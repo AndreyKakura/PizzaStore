@@ -24,7 +24,7 @@ public class Pizza {
 
     @Column(name = "description")
     @NotEmpty
-    @Size(max = 500 , message = "Description should not be greater than 500 characters")
+    @Size(max = 500, message = "Description should not be greater than 500 characters")
     private String description;
 
     @Column(name = "price")
@@ -32,7 +32,7 @@ public class Pizza {
     @Positive(message = "Price should be greater than zero")
     private BigDecimal price;
 
-    @OneToOne(mappedBy = "pizza",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "pizza", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Image image;
 
     public Pizza() {

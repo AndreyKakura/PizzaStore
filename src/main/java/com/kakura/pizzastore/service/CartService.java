@@ -66,9 +66,8 @@ public class CartService {
     }
 
     public Long calculateTotalPrice(Cart cart) {
-        List<CartItem> items = cart.getCartItems();
         long totalPrice = 0;
-        for(CartItem item : cart.getCartItems()) {
+        for (CartItem item : cart.getCartItems()) {
             totalPrice += item.calculatePrice();
         }
         return totalPrice;

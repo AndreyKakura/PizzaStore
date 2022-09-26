@@ -1,6 +1,5 @@
 package com.kakura.pizzastore.controller;
 
-import com.kakura.pizzastore.model.Role;
 import com.kakura.pizzastore.model.User;
 import com.kakura.pizzastore.security.CustomUserDetails;
 import com.kakura.pizzastore.service.UserService;
@@ -13,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/users")
@@ -61,19 +59,15 @@ public class UserController {
     @PatchMapping("/editCurrent")
     public String editCurrent(@AuthenticationPrincipal CustomUserDetails userDetails,
                               @ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
-
         Long currentUserId = userDetails.getUser().getId();
-
         user.setId(currentUserId);
-
         userValidator.validate(user, bindingResult);
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "users/editcurrent";
         }
 
         userService.update(userDetails.getUser().getId(), user);
-
         return "redirect:/users/profile";
     }
 

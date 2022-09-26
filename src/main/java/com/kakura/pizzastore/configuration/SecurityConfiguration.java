@@ -24,63 +24,8 @@ public class SecurityConfiguration {
         this.userDetailsService = userDetailsService;
     }
 
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeRequests()
-//                .antMatchers("/admin").hasRole("ADMIN")
-//                .antMatchers("/users/login", "/users/registration", "/error").permitAll()
-//                .anyRequest().hasAnyRole("USER", "ADMIN")
-//                .and()
-//                .formLogin().loginPage("/users/login")
-//                .loginProcessingUrl("/process_login")
-//                .defaultSuccessUrl("/hello", true)
-//                .failureUrl("/users/login?error")
-//                .and()
-//                .logout().logoutUrl("/logout").logoutSuccessUrl("/users/login");
-//
-//        return http.build();
-//    }
-
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeRequests()
-//                .antMatchers("/admin").hasRole("ADMIN")
-//                .antMatchers("/users/login", "/users/registration", "/error").permitAll()
-//                .anyRequest().hasAnyRole("USER", "ADMIN")
-//                .and()
-//                .formLogin().loginPage("/users/login")
-//                .loginProcessingUrl("/process_login")
-//                .defaultSuccessUrl("/hello", true)
-//                .failureUrl("/users/login?error")
-//                .and()
-//                .logout().logoutUrl("/logout").logoutSuccessUrl("/users/login");
-//    }
-
-//    @Bean
-//    public EmbeddedLdapServerContextSourceFactoryBean contextSourceFactoryBean() {
-//        EmbeddedLdapServerContextSourceFactoryBean contextSourceFactoryBean =
-//                EmbeddedLdapServerContextSourceFactoryBean.fromEmbeddedLdapServer();
-//        contextSourceFactoryBean.setPort(0);
-//        return contextSourceFactoryBean;
-//    }
-//
-//    @Bean
-//    AuthenticationManager ldapAuthenticationManager(
-//            BaseLdapPathContextSource contextSource) {
-//        LdapBindAuthenticationManagerFactory factory =
-//                new LdapBindAuthenticationManagerFactory(contextSource);
-//        factory.setUserDnPatterns("uid={0},ou=people");
-//        factory.setUserDetailsContextMapper(new PersonContextMapper());
-//        return factory.createAuthenticationManager();
-//    }
-
-
-
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)  throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(getPasswordEncoder());
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
@@ -88,15 +33,13 @@ public class SecurityConfiguration {
 
         return http
                 .authorizeRequests()
-//                .anyRequest().permitAll()
-                .antMatchers( "/admin").hasRole("ADMIN")
+                .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/orders").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/pizza/new", "/pizza/{id}", "/pizza/{id}/edit").hasRole("ADMIN")
                 .antMatchers("/cart/index").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/users/profile").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/users/editCurrent").hasAnyRole("ADMIN", "USER")
-                .antMatchers( "/users/login", "/users/registration", "/pizza", "/images/{id}", "/error").permitAll()
-//                .anyRequest().hasAnyRole("USER", "ADMIN")
+                .antMatchers("/users/login", "/users/registration", "/pizza", "/images/{id}", "/error").permitAll()
                 .and()
                 .formLogin().loginPage("/users/login")
                 .loginProcessingUrl("/process_login")
@@ -105,20 +48,12 @@ public class SecurityConfiguration {
                 .and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/users/login")
                 .and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
                 .authenticationManager(authenticationManager)
                 .build();
     }
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService)
-//                .passwordEncoder(getPasswordEncoder());
-//    }
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }

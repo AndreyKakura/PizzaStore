@@ -29,7 +29,7 @@ public class PizzaController {
 
     @GetMapping()
     public String index(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
-        if( userDetails != null) {
+        if (userDetails != null) {
             model.addAttribute("mapOfIdAndAmount", cartService.getMapOfPizzaIdAndAmountForUser(userDetails.getUser().getId()));
         }
         model.addAttribute("pizzas", pizzaService.findAll());
@@ -59,12 +59,10 @@ public class PizzaController {
 
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("pizza") @Valid Pizza pizza, BindingResult bindingResult, @RequestParam("imageFile") MultipartFile imageFile, @PathVariable("id") Long id) {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "pizza/edit";
         }
-
         pizzaService.update(id, pizza, imageFile);
-
         return "redirect:/pizza";
     }
 }
