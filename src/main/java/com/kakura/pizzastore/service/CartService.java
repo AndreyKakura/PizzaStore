@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional(readOnly = true)
 public class CartService {
 
     private final CartRepository cartRepository;
@@ -40,7 +41,6 @@ public class CartService {
                 break;
             }
         }
-
         if (!cartContainsProduct) {
             CartItem item = new CartItem();
             item.setPizza(pizzaRepository.findById(pizzaId).get());
@@ -49,7 +49,6 @@ public class CartService {
             cart.getCartItems().add(item);
             cartRepository.save(cart);
         }
-
     }
 
     public Cart findOneByUserId(Long userId) {

@@ -8,12 +8,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class PizzaService {
 
     private static final Logger LOGGER = LogManager.getLogger();
@@ -43,6 +45,7 @@ public class PizzaService {
         pizzaRepository.save(pizza);
     }
 
+    @Transactional
     public void update(Long id, Pizza updatedPizza, MultipartFile imageFile) {
         Pizza pizzaToBeUpdated = pizzaRepository.findById(id).get();
         updatedPizza.setId(id);

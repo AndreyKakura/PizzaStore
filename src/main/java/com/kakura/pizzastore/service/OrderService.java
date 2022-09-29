@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class OrderService {
     private final OrderRepository orderRepository;
     private final CartRepository cartRepository;
