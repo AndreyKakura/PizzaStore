@@ -37,6 +37,7 @@ public class PizzaService {
         return pizzaRepository.findById(id).orElse(null);
     }
 
+    @Transactional
     public void save(Pizza pizza, MultipartFile imageFile) {
         if (imageFile.getSize() != 0) {
             Image image = toImageEntity(imageFile);
@@ -65,6 +66,7 @@ public class PizzaService {
         image.setName(file.getName());
         image.setOriginalFileName(file.getOriginalFilename());
         image.setContentType(file.getContentType());
+        System.out.println(file.getContentType());
         image.setSize(file.getSize());
         try {
             image.setBytes(file.getBytes());
