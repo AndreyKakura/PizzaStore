@@ -1,8 +1,13 @@
 <div th:fragment="header" xmlns:sec="http://www.w3.org/1999/xhtml">
     <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg bg-light">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/pizza"> Mega Pizza</a>
+<!--                <div class="container">-->
+                    <a class="navbar-brand" href="/pizza">
+                        <img src="/img/logo.png" alt="" width="50">
+                        Mega Pizza
+                    </a>
+<!--                </div>-->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
                         aria-label="Toggle navigation">
@@ -18,8 +23,9 @@
                         <a sec:authorize="hasAnyRole('ADMIN', 'USER')" class="nav-link active" href="/users/profile">Profile</a>
                         <a sec:authorize="!isAuthenticated()" class="nav-link active" href="/users/registration">Registration</a>
                         <a sec:authorize="!isAuthenticated()" class="nav-link active" href="/users/login">Login</a>
-                        <form sec:authorize="isAuthenticated()" th:action="@{/logout}" th:method="POST">
-                            <input class="nav-link active border-warning" type="submit" value="Logout">
+                        <form sec:authorize="isAuthenticated()" th:action="@{/logout}" th:method="POST"
+                              class="nav-link active">
+                            <input class="border-0 bg-dark text-light" type="submit" value="Logout">
                         </form>
                     </div>
                 </div>

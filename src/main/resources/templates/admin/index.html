@@ -12,7 +12,7 @@
     <div class="container-fluid">
         <ul class="list-group">
             <div th:each="user : ${users}">
-                <li class="list-group-item">
+                <li class="list-group-item m-1">
                     <ul class="list-group px-2">
                         <li  th:text="'Email: ' +${user.getEmail()}"></li>
                         <li  th:text="'Name: ' +${user.getName()}"></li>
@@ -20,7 +20,7 @@
                         <li  th:text="'Role: ' +${user.getRole().getRoleValue()}"></li>
                         <li  th:text="'Active: ' +${user.isActive()}"></li>
                     </ul>
-                    <a class="btn btn-primary text-decoration-none" th:href="@{/admin/{id}/edit(id = ${user.getId()})}">Edit</a>
+                    <a class="btn btn-danger text-decoration-none" th:href="@{/admin/{id}/edit(id = ${user.getId()})}">Edit</a>
                 </li>
             </div>
         </ul>

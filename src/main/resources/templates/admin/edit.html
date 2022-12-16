@@ -29,7 +29,7 @@
                 <label for="surname">Surname</label>
             </div>
             <div class="alert alert-warning" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">error</div>
-            <input type="submit" class="btn btn-primary" value="Edit"/>
+            <input type="submit" class="btn btn-danger" value="Edit"/>
         </form>
         <hr/>
         <h5 th:text="'Role: ' + ${user.getRole().getRoleValue()}"></h5>
@@ -38,7 +38,7 @@
                     aria-expanded="false">
                 Change role
             </button>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu dropdown-menu-dark">
                 <div th:each="role : ${roles}">
                     <li>
                         <form th:method="PATCH" th:action="@{/admin/{id}/changeRole(id = ${user.getId()})}">

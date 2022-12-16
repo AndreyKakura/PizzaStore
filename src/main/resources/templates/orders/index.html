@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Orders</title>
@@ -12,7 +13,7 @@
 <main>
     <div class="container-fluid">
         <div th:each="order : ${orders}">
-            <div class="card m-1" style="width: 30rem;">
+            <div class="card m-1">
                 <h5 class="card-header" th:text="'Price: ' + ${order.getPrice()}"></h5>
                 <h6 class="card-header" th:text="'Status: ' + ${order.getOrderStatus()}"></h6>
                 <h6 class="card-header" th:text="'Address: ' + ${order.getAddress()}"></h6>
@@ -26,6 +27,7 @@
                     </div>
                 </div>
             </div>
+            </br>
         </div>
     </div>
 </main>

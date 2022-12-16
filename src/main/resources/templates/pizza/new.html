@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Add new pizza</title>
@@ -19,7 +19,7 @@
 
 
             <div class="form-floating m-1">
-                <input type="text" th:field="*{description}" class="form-control" name="name" id="description" placeholder="Description"/>
+                <input type="text" th:field="*{description}" class="form-control" name="description" id="description" placeholder="Description"/>
                 <label for="description">Description</label>
             </div>
             <div class="alert alert-warning" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">error</div>
@@ -35,7 +35,7 @@
                 <input type="file" name="imageFile" id="imageFile">
             </div>
 
-            <input type="submit" class="btn btn-primary" value="Add"/>
+            <input type="submit" class="btn btn-danger" value="Add"/>
         </form>
     </div>
 </main>

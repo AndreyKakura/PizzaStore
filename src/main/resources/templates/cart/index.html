@@ -10,39 +10,47 @@
 <body>
 <header th:insert="blocks/header :: header"></header>
 <main>
-    <div th:each="item : ${cart.getCartItems()}">
-        <div class="card m-1" style="width: 30rem;">
-            <h5 class="card-header" th:text="${item.getPizza().getName()}"></h5>
-            <h6 class="card-header" th:text="'Cost: ' + ${item.calculatePrice()}"></h6>
-            <div class="card-body">
-                <img th:if="${item.getPizza().getImage() != null}"
-                     th:src="@{'data:image/jpeg;base64,'+${item.getPizza().getImage().getImageBytesEncoded()}}"
-                     class="card-img-top" alt="Pizza image" style="width: 12rem;">
-                <p class="card-text" th:text="${item.getPizza().getDescription()}"></p>
-                <hr/>
-                <form th:action="@{/cart/changeItemAmount}" th:method="PATCH">
-                    <input type="hidden" th:value="${item.getId()}" name="id">
-                    <input type="number" min="1" max="100" th:value="${item.getAmount()}" name="amount"
-                           class="w-25 m-1">
-                    <input class="btn btn-primary" type="submit" value="Change amount">
-                </form>
-                <form th:action="@{/cart/removeItem/{id} (id = ${item.getId()})}" th:method="DELETE">
-                    <input type="submit" value="Delete" class="btn btn-primary">
-                </form>
-            </div>
-        </div>
-    </div>
-    <hr/>
-    <div class="card m-1" style="width: 30rem;">
-        <div class="card-body">
-            <p class="card-text" th:text="'Total price: ' + ${totalPrice} "></p>
-            <form th:if="${cart.getCartItems().size() > 0}" th:action="@{/orders}" th:method="POST" class="form-floating">
-                <div class="form-floating m-1">
-                    <input type="text" required name="address" id="address" class="form-control" placeholder="Address">
-                    <label for="address">Address</label>
+    <div class="container-fluid">
+        <div class="row row-cols-2 row-cols-md-5 g-4">
+            <div th:each="item : ${cart.getCartItems()}">
+                <div class="col">
+                    <div class="card h-100">
+                        <h5 class="card-header" th:text="${item.getPizza().getName()}"></h5>
+                        <h6 class="card-header" th:text="'Cost: ' + ${item.calculatePrice()}"></h6>
+                        <div class="card-body">
+                            <img th:if="${item.getPizza().getImage() != null}"
+                                 th:src="@{'data:image/jpeg;base64,'+${item.getPizza().getImage().getImageBytesEncoded()}}"
+                                 class="card-img-top" alt="Pizza image" style="width: 12rem;">
+                            <p class="card-text" th:text="${item.getPizza().getDescription()}"></p>
+                            <hr/>
+                            <form th:action="@{/cart/changeItemAmount}" th:method="PATCH">
+                                <input type="hidden" th:value="${item.getId()}" name="id">
+                                <input type="number" min="1" max="100" th:value="${item.getAmount()}" name="amount"
+                                       class="w-25 m-1">
+                                <input class="btn btn-dark" type="submit" value="Change amount">
+                            </form>
+                            <form th:action="@{/cart/removeItem/{id} (id = ${item.getId()})}" th:method="DELETE">
+                                <input type="submit" value="Delete" class="btn btn-dark">
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <input type="submit" value="Order" class="btn btn-primary">
-            </form>
+            </div>
+
+            <div class="card mt-4" style="width: 50rem;">
+                <div class="card-body">
+                    <p class="card-text" th:text="'Total price: ' + ${totalPrice} "></p>
+                    <form th:if="${cart.getCartItems().size() > 0}" th:action="@{/orders}" th:method="POST"
+                          class="form-floating">
+                        <div class="form-floating m-1">
+                            <input type="text" required name="address" id="address" class="form-control"
+                                   placeholder="Address">
+                            <label for="address">Address</label>
+                        </div>
+                        <input type="submit" value="Order" class="btn btn-dark">
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </main>

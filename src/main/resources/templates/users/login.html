@@ -21,7 +21,7 @@
                 <input type="password" class="form-control" name="password" id="password" placeholder="Password"/>
                 <label for="password">Password</label>
             </div>
-            <input type="submit" class="btn btn-primary" value="Login"/>
+            <input type="submit" class="btn btn-dark" value="Login"/>
                 <p th:if="${param.error}" class="alert alert-danger m-1">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
         </form>
     </div>
