@@ -23,7 +23,7 @@ public class Pizza {
     private String name;
 
     @Column(name = "description")
-    @NotEmpty
+    @NotEmpty(message = "Description should not be empty")
     @Size(max = 500, message = "Description should not be greater than 500 characters")
     private String description;
 

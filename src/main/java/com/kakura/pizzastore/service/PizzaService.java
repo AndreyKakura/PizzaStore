@@ -66,7 +66,6 @@ public class PizzaService {
         image.setName(file.getName());
         image.setOriginalFileName(file.getOriginalFilename());
         image.setContentType(file.getContentType());
-        System.out.println(file.getContentType());
         image.setSize(file.getSize());
         try {
             image.setBytes(file.getBytes());
