@@ -38,16 +38,16 @@ public class PizzaService {
     }
 
     @Transactional
-    public void save(Pizza pizza, MultipartFile imageFile) {
+    public Pizza save(Pizza pizza, MultipartFile imageFile) {
         if (imageFile.getSize() != 0) {
             Image image = toImageEntity(imageFile);
             pizza.setImage(image);
         }
-        pizzaRepository.save(pizza);
+        return pizzaRepository.save(pizza);
     }
 
     @Transactional
-    public void update(Long id, Pizza updatedPizza, MultipartFile imageFile) {
+    public Pizza update(Long id, Pizza updatedPizza, MultipartFile imageFile) {
         Pizza pizzaToBeUpdated = pizzaRepository.findById(id).get();
         updatedPizza.setId(id);
         if (imageFile.getSize() != 0) {
@@ -58,7 +58,7 @@ public class PizzaService {
             imageRepository.save(image);
             updatedPizza.setImage(image);
         }
-        pizzaRepository.save(updatedPizza);
+        return pizzaRepository.save(updatedPizza);
     }
 
     private Image toImageEntity(MultipartFile file) {

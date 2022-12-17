@@ -37,35 +37,35 @@ public class UserService {
     }
 
     @Transactional
-    public void createUser(User user) {
+    public User createUser(User user) {
         user.setActive(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.ROLE_USER);
         user.setCart(new Cart());
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Transactional
-    public void update(Long id, User updatedUser) {
+    public User update(Long id, User updatedUser) {
         User userToBeUpdated = userRepository.findById(id).get();
         updatedUser.setId(id);
         updatedUser.setActive(userToBeUpdated.isActive());
         updatedUser.setRole(userToBeUpdated.getRole());
         updatedUser.setPassword(userToBeUpdated.getPassword());
-        userRepository.save(updatedUser);
+        return userRepository.save(updatedUser);
     }
 
     @Transactional
-    public void changeRole(Long id, Role role) {
+    public User changeRole(Long id, Role role) {
         User user = userRepository.findById(id).get();
         user.setRole(role);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Transactional
-    public void changeActive(Long id) {
+    public User changeActive(Long id) {
         User user = userRepository.findById(id).get();
         user.setActive(!user.isActive());
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 }

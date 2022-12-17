@@ -32,7 +32,7 @@ public class OrderService {
     }
 
     @Transactional
-    public void createOrder(String address, Long userId) {
+    public Order createOrder(String address, Long userId) {
         Cart cart = cartRepository.findCartByUserId(userId).get();
         List<CartItem> cartItems = cart.getCartItems();
         Order order = new Order();
@@ -48,10 +48,10 @@ public class OrderService {
         order.setUser(user);
 
         orderItemRepository.saveAll(orderItems);
-        orderRepository.save(order);
         userRepository.save(user);
 
         cartRepository.deleteById(cart.getId());
+        return orderRepository.save(order);
     }
 
     public List<Order> findAllByUserIdSortedByCreatedDesc(Long userId) {

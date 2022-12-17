@@ -20,9 +20,9 @@ public class CartItemService {
     }
 
     @Transactional
-    public void changeItemAmount(Long itemId, Long amount) {
+    public CartItem changeItemAmount(Long itemId, Long amount) {
             CartItem itemToBeUpdated = cartItemRepository.findById(itemId).get();
             itemToBeUpdated.setAmount(amount);
-            cartItemRepository.save(itemToBeUpdated);
+            return cartItemRepository.save(itemToBeUpdated);
     }
 }
